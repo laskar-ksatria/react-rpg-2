@@ -1,5 +1,5 @@
 import store from '../../config/store'
-import { SPRITE_SIZE, MAP_WIDTH, MAP_HEIGHT } from '../../config/constants'
+import { SPRITE_SIZE, MAP_WIDTH, MAP_HEIGHT, SPRITE_SIZE2 } from '../../config/constants'
 
 
 export default function handleMovement(player) {    
@@ -14,9 +14,9 @@ export default function handleMovement(player) {
       
         switch (direction) {
             case 'WEST': 
-                return [ oldPos[0] + SPRITE_SIZE, oldPos[1] ]
+                return [ oldPos[0] + SPRITE_SIZE2, oldPos[1] ]
             case 'EAST': 
-                return [ oldPos[0] - SPRITE_SIZE, oldPos[1] ]
+                return [ oldPos[0] - SPRITE_SIZE2, oldPos[1] ]
             case 'NORTH': 
                 return [ oldPos[0], oldPos[1] - SPRITE_SIZE ]
             case 'SOUTH': 
@@ -30,13 +30,14 @@ export default function handleMovement(player) {
     function getSpriteLocation(direction,walIndex) {
         switch(direction) {
             case 'WEST':
-                return `${SPRITE_SIZE*walIndex}px ${SPRITE_SIZE*1}px`
+                return `${SPRITE_SIZE*walIndex}px ${SPRITE_SIZE2*1}px`
+                // return `40px 40px`
             case 'EAST':
-                return `${SPRITE_SIZE*walIndex}px ${SPRITE_SIZE*2}px`
+                return `${SPRITE_SIZE*walIndex}px ${SPRITE_SIZE2*2}px`
             case 'SOUTH':
-                return `${SPRITE_SIZE*walIndex}px ${SPRITE_SIZE*0}`
+                return `${SPRITE_SIZE*walIndex}px ${SPRITE_SIZE2*0}px`
             case 'NORTH':
-                return `${SPRITE_SIZE*walIndex}px ${SPRITE_SIZE*3}`
+                return `${SPRITE_SIZE*walIndex}px ${SPRITE_SIZE2*3}px`
             default:
                 return console.log('this is not key')
         }
@@ -44,12 +45,12 @@ export default function handleMovement(player) {
 
     function getWalkIndex() {
         const walkIndex = store.getState().player.walkIndex
-        return walkIndex >= 8 ? 0 : walkIndex + 1
+        return walkIndex >= 5 ? 0 : walkIndex + 1
     }
 
     function observeBoundaries (oldPos, newPos) {
         return (newPos[0] >= 0 && newPos[0] <= MAP_WIDTH - SPRITE_SIZE) &&
-            (newPos[1] >= 0 && newPos[1] <= MAP_HEIGHT - SPRITE_SIZE)
+            (newPos[1] >= 0 && newPos[1] <= MAP_HEIGHT - SPRITE_SIZE2)
             ? newPos : oldPos
     };
 
@@ -57,7 +58,7 @@ export default function handleMovement(player) {
     function observeImpassible (oldPos, newPos) {
         const tiles = store.getState().map.tiles
         const y = newPos[1] / SPRITE_SIZE
-        const x = newPos[0] / SPRITE_SIZE
+        const x = newPos[0] / SPRITE_SIZE2
         const nextTile = tiles[y][x]
         return nextTile < 5
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import Character from './imagePlayer/player_walk.png'
+import Character from './imagePlayer/claude.png'
 import { connect } from 'react-redux'
 import handleMovement from './movement'
 
@@ -12,8 +12,8 @@ function Player (props) {
             left: props.position[0],
             backgroundImage: `url('${Character}')`,
             backgroundPosition: props.spriteLocation,
-            width: '40px',
-            height: '40px'
+            width: '32px',
+            height: '63px'
         }}>
             
         </div>
